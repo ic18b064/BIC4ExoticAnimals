@@ -22,6 +22,16 @@ window.Vue = vue;
 
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('query-message', require('./components/base/QueryMessage.vue').default);
+Vue.component('animal-index', require('./components/animal/animal-index').default);
+Vue.component('animal-create', require('./components/animal/animal-create').default);
+Vue.component('animal-edit', require('./components/animal/animal-edit').default);
+Vue.component('animal-search', require('./components/animal/animal-search').default);
+Vue.component('animal-show', require('./components/animal/animal-show').default);
+Vue.component('species-index', require('./components/species/species-index').default);
+Vue.component('species-create', require('./components/species/species-create').default);
+Vue.component('species-edit', require('./components/species/species-edit').default);
+Vue.component('species-show', require('./components/species/species-show').default);
+
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -29,6 +39,9 @@ Vue.component('query-message', require('./components/base/QueryMessage.vue').def
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
+
+
 const app = new Vue({
     el: '#app',
+
 });
