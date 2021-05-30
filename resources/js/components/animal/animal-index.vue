@@ -15,6 +15,7 @@
                                 <th>ID</th>
                                 <th>Name</th>
                                 <th>Description</th>
+                                <th>SpeciesID</th>
                                 <th>Created</th>
                                 <th>Updated</th>
                             </tr>
@@ -22,6 +23,7 @@
                                 <td>{{item.id}}</td>
                                 <td>{{item.name}}</td>
                                 <td>{{item.description}}</td>
+                                <td>{{item.species_id}}</td>
                                 <td>{{item.created_at}}</td>
                                 <td>{{item.updated_at}}</td>
                             </tr>
