@@ -102,7 +102,7 @@
 
         computed: {
             loading() {
-                return !this.species.length
+                return !this.species.length;
             }
         },
 
