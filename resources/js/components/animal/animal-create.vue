@@ -40,8 +40,8 @@
                             <input type="submit" class="button is-primary" value="Create">
                         </div>
                     </form>
-                    <div style="margin-top: 15px">
-                        <query-messages :fail="fail" :success="success" :message="message"></query-messages>
+                    <div class="query-message-container">
+                        <query-messages ref="msg"></query-messages>
                     </div>
                     </div>
                 </div>
@@ -69,10 +69,7 @@
             return {
                 form: form,
                 species: [],
-                noSpeciesID: false,
-                fail: false,
-                success: false,
-                message: ''
+                noSpeciesID: false
             };
         },
 
@@ -80,34 +77,19 @@
             // submit form handler
             submit() {
                 this.form.post('/animal').then((response) => {
-                    this.success = true;
-                    this.message = 'Animal successfully created';
-                    this.resetMessage(5000);
+                    this.$refs.msg.showSuccessMessage('Animal successfully created.', 5000);
 
                     this.form.name = '';
                     this.form.description = '';
                     this.form.species_id = '';
                 }).catch(error => {
-                    this.message = 'Animal already exists.';
-                    this.fail = true;
-                    this.success = false;
-
-                    this.resetMessage(5000);
+                    this.$refs.msg.showErrorMessage('Animal already exists.', 5000);
                     console.log(error);
                 });
-            },
-
-            resetMessage(delay) {
-                setTimeout(function() {
-                    this.success = false;
-                    this.fail = false;
-                    this.message = '';
-                }.bind(this), delay);
             }
         },
 
         created() {
-            console.log('created');
             axios.get('/list/species').then((response) => {
                 this.species = response.data;
 

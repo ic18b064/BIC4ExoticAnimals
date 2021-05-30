@@ -142,7 +142,7 @@
 
     <footer class="footer">
         <div class="content has-text-centered">
-            <small>Here comes some footer</small>
+            <small>&copy; Markus Reder, Patrik Binder, Nikolaus Ferchenbauer, Srdjan Misic</small>
         </div>
     </footer>
 </div>

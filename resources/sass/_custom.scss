@@ -38,10 +38,32 @@
     }
 }
 
+.query-message-container {
+    margin-top: 30px;
+}
+
 .footer{
     height: 5vh;
 }
 
 .hero.is-fullheight-with-navbar{
     min-height: calc(100vh - 6.75rem);
+}
+
+.slide-fade-enter-active {
+    transition: all .8s ease;
+}
+
+.slide-fade-leave-active {
+    transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+}
+
+.slide-fade-enter, .slide-fade-leave-to {
+    transform: translateX(10px);
+    opacity: 0;
+}
+
+.overflow-table {
+    max-height: 70vh;
+    overflow-y: auto;
 }
