@@ -1,18 +1,32 @@
 <template>
     <div class="container">
-        <div class="columns is-multiline">
-            <div class="card column is-half is-offset-one-quarter">
+        <div  class="columns is-multiline">
+            <div  class="card column is-half is-offset-one-quarter">
                 <header class="card-header">
                     <h1 class="card-header-title">
-                        <ul id="example-1">
-                        <li v-for="item in animals" :key="item.id">
-                            {{ item.name }}
-                        </li>
-                        </ul>
+                        animals
+
                     </h1>
                 </header>
-                <div class="card-content">
+                <div >
                     <div class="content">
+                        <table>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Description</th>
+                                <th>Created</th>
+                                <th>Updated</th>
+                            </tr>
+                            <tr  v-for="item in animals" :key="item.id" class="card-content">
+                                <td>{{item.id}}</td>
+                                <td>{{item.name}}</td>
+                                <td>{{item.description}}</td>
+                                <td>{{item.created_at}}</td>
+                                <td>{{item.updated_at}}</td>
+                            </tr>
+
+                        </table>
                         <slot></slot>
                     </div>
                 </div>

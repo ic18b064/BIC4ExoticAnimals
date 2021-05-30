@@ -2042,6 +2042,20 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['title'],
   mounted: function mounted() {
@@ -20165,33 +20179,76 @@ var render = function() {
   return _c("div", { staticClass: "container" }, [
     _c("div", { staticClass: "columns is-multiline" }, [
       _c("div", { staticClass: "card column is-half is-offset-one-quarter" }, [
-        _c("header", { staticClass: "card-header" }, [
-          _c("h1", { staticClass: "card-header-title" }, [
-            _c(
-              "ul",
-              { attrs: { id: "example-1" } },
-              _vm._l(_vm.animals, function(item) {
-                return _c("li", { key: item.id }, [
-                  _vm._v(
-                    "\n                        " +
-                      _vm._s(item.name) +
-                      "\n                    "
-                  )
-                ])
-              }),
-              0
-            )
-          ])
-        ]),
+        _vm._m(0),
         _vm._v(" "),
-        _c("div", { staticClass: "card-content" }, [
-          _c("div", { staticClass: "content" }, [_vm._t("default")], 2)
+        _c("div", [
+          _c(
+            "div",
+            { staticClass: "content" },
+            [
+              _c(
+                "table",
+                [
+                  _vm._m(1),
+                  _vm._v(" "),
+                  _vm._l(_vm.animals, function(item) {
+                    return _c(
+                      "tr",
+                      { key: item.id, staticClass: "card-content" },
+                      [
+                        _c("td", [_vm._v(_vm._s(item.id))]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(item.name))]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(item.description))]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(item.created_at))]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(item.updated_at))])
+                      ]
+                    )
+                  })
+                ],
+                2
+              ),
+              _vm._v(" "),
+              _vm._t("default")
+            ],
+            2
+          )
         ])
       ])
     ])
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("header", { staticClass: "card-header" }, [
+      _c("h1", { staticClass: "card-header-title" }, [
+        _vm._v("\n                    animals\n\n                ")
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("tr", [
+      _c("th", [_vm._v("ID")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Name")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Description")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Created")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Updated")])
+    ])
+  }
+]
 render._withStripped = true
 
 
