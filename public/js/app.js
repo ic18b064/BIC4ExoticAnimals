@@ -2038,10 +2038,26 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['title'],
   mounted: function mounted() {
     console.log('index mounted.');
+  },
+  data: function data() {
+    return {
+      animals: []
+    };
+  },
+  created: function created() {
+    var _this = this;
+
+    axios.get('/list/animal').then(function (response) {
+      _this.animals = response.data;
+    });
   }
 });
 
@@ -2270,6 +2286,18 @@ __webpack_require__.r(__webpack_exports__);
   props: ['title'],
   mounted: function mounted() {
     console.log('test2 mounted.');
+  },
+  data: function data() {
+    return {
+      species: []
+    };
+  },
+  created: function created() {
+    var _this = this;
+
+    axios.get('/list/species').then(function (response) {
+      _this.species = response.data;
+    });
   }
 });
 
@@ -20139,10 +20167,19 @@ var render = function() {
       _c("div", { staticClass: "card column is-half is-offset-one-quarter" }, [
         _c("header", { staticClass: "card-header" }, [
           _c("h1", { staticClass: "card-header-title" }, [
-            _vm._v(
-              "\n                    " +
-                _vm._s(_vm.title) +
-                "\n                "
+            _c(
+              "ul",
+              { attrs: { id: "example-1" } },
+              _vm._l(_vm.animals, function(item) {
+                return _c("li", { key: item.id }, [
+                  _vm._v(
+                    "\n                        " +
+                      _vm._s(item.name) +
+                      "\n                    "
+                  )
+                ])
+              }),
+              0
             )
           ])
         ]),
@@ -20388,7 +20425,7 @@ var render = function() {
           _c("h1", { staticClass: "card-header-title" }, [
             _vm._v(
               "\n                    " +
-                _vm._s(_vm.title) +
+                _vm._s(_vm.species) +
                 "\n                "
             )
           ])
