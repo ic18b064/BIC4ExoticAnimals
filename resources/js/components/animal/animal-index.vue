@@ -1,35 +1,37 @@
 <template>
     <div class="container">
         <div  class="columns is-multiline">
-            <div  class="card column is-half is-offset-one-quarter">
+            <div  class="card column">
                 <header class="card-header">
                     <h1 class="card-header-title">
-                        animals
-
+                        Animals
                     </h1>
                 </header>
-                <div >
-                    <div class="content">
+                <div>
+                    <div style="height: 73vh; overflow: auto;" class="content">
                         <table>
-                            <tr>
+                            <thead>
                                 <th>ID</th>
                                 <th>Name</th>
                                 <th>Description</th>
                                 <th>SpeciesID</th>
                                 <th>Created</th>
                                 <th>Updated</th>
-                            </tr>
+                            </thead>
                             <tr  v-for="item in animals" :key="item.id" class="card-content">
                                 <td>{{item.id}}</td>
                                 <td>{{item.name}}</td>
                                 <td>{{item.description}}</td>
-                                <td>{{item.species_id}}</td>
-                                <td>{{item.created_at}}</td>
-                                <td>{{item.updated_at}}</td>
+                                <td>
+                                    <a @click="showSpecies(item.species_id)">
+                                        {{item.species_id}}
+                                    </a>
+                                </td>
+                                <td>{{item.created_at | formatDate }}</td>
+                                <td>{{item.updated_at | formatDate }}</td>
                             </tr>
 
                         </table>
-                        <slot></slot>
                     </div>
                 </div>
             </div>
@@ -51,6 +53,12 @@ export default {
         axios.get('/list/animal').then((response) => {
             this.animals = response.data;
         });
+    },
+
+    methods: {
+        showSpecies(specieId){
+            window.location.href = '/species/' + specieId;
+        }
     }
 
 }

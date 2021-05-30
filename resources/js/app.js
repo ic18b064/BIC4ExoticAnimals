@@ -5,7 +5,9 @@
  */
 require('./bootstrap');
 
+import Vue from 'vue';
 import vue from 'vue';
+import moment from 'moment';
 
 window.Vue = vue;
 
@@ -32,6 +34,15 @@ Vue.component('species-create', require('./components/species/species-create').d
 Vue.component('species-edit', require('./components/species/species-edit').default);
 Vue.component('species-show', require('./components/species/species-show').default);
 
+/**
+ * Filters 
+ */
+
+ Vue.filter('formatDate', function(value) {
+    if (value) {
+        return moment(String(value)).format('DD/MM/YYYY hh:mm')
+    }
+});
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
