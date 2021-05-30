@@ -2146,6 +2146,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['title'],
   mounted: function mounted() {
@@ -2166,6 +2167,11 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     showSpecies: function showSpecies(specieId) {
       window.location.href = '/species/' + specieId;
+    }
+  },
+  computed: {
+    loading: function loading() {
+      return !this.animals.length;
     }
   }
 });
@@ -42058,58 +42064,66 @@ var render = function() {
       _c("div", { staticClass: "card column" }, [
         _vm._m(0),
         _vm._v(" "),
-        _c("div", [
-          _c("div", { staticClass: "content overflow-table" }, [
-            _c(
-              "table",
-              [
-                _vm._m(1),
-                _vm._v(" "),
-                _vm._l(_vm.animals, function(item) {
-                  return _c(
-                    "tr",
-                    { key: item.id, staticClass: "card-content" },
-                    [
-                      _c("td", [_vm._v(_vm._s(item.id))]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(item.name))]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(item.description))]),
-                      _vm._v(" "),
-                      _c("td", [
-                        _c(
-                          "a",
-                          {
-                            on: {
-                              click: function($event) {
-                                return _vm.showSpecies(item.species_id)
-                              }
-                            }
-                          },
-                          [
-                            _vm._v(
-                              "\n                                    " +
-                                _vm._s(item.species_id) +
-                                "\n                                "
+        _c("div", { staticClass: "table-container" }, [
+          _vm.loading ? _c("div", { staticClass: "lds-dual-ring" }) : _vm._e(),
+          _vm._v(" "),
+          !_vm.loading
+            ? _c("div", { staticClass: "content overflow-table" }, [
+                _c(
+                  "table",
+                  [
+                    _vm._m(1),
+                    _vm._v(" "),
+                    _vm._l(_vm.animals, function(item) {
+                      return _c(
+                        "tr",
+                        { key: item.id, staticClass: "card-content" },
+                        [
+                          _c("td", [_vm._v(_vm._s(item.id))]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v(_vm._s(item.name))]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v(_vm._s(item.description))]),
+                          _vm._v(" "),
+                          _c("td", [
+                            _c(
+                              "a",
+                              {
+                                on: {
+                                  click: function($event) {
+                                    return _vm.showSpecies(item.species_id)
+                                  }
+                                }
+                              },
+                              [
+                                _vm._v(
+                                  "\n                                    " +
+                                    _vm._s(item.species_id) +
+                                    "\n                                "
+                                )
+                              ]
                             )
-                          ]
-                        )
-                      ]),
-                      _vm._v(" "),
-                      _c("td", [
-                        _vm._v(_vm._s(_vm._f("formatDate")(item.created_at)))
-                      ]),
-                      _vm._v(" "),
-                      _c("td", [
-                        _vm._v(_vm._s(_vm._f("formatDate")(item.updated_at)))
-                      ])
-                    ]
-                  )
-                })
-              ],
-              2
-            )
-          ])
+                          ]),
+                          _vm._v(" "),
+                          _c("td", [
+                            _vm._v(
+                              _vm._s(_vm._f("formatDate")(item.created_at))
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("td", [
+                            _vm._v(
+                              _vm._s(_vm._f("formatDate")(item.updated_at))
+                            )
+                          ])
+                        ]
+                      )
+                    })
+                  ],
+                  2
+                )
+              ])
+            : _vm._e()
         ])
       ])
     ])

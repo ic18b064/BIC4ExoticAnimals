@@ -7,8 +7,9 @@
                         Animals
                     </h1>
                 </header>
-                <div>
-                    <div class="content overflow-table">
+                <div class="table-container">
+                    <div v-if="loading" class="lds-dual-ring"></div>
+                    <div v-if="!loading" class="content overflow-table">
                         <table>
                             <thead>
                                 <th>ID</th>
@@ -58,6 +59,12 @@ export default {
     methods: {
         showSpecies(specieId){
             window.location.href = '/species/' + specieId;
+        }
+    },
+
+    computed: {
+        loading() {
+            return !this.animals.length;
         }
     }
 
