@@ -4,12 +4,30 @@
             <div class="card column is-half is-offset-one-quarter">
                 <header class="card-header">
                     <h1 class="card-header-title">
-                        {{ species }}
+                        Species
                     </h1>
                 </header>
-                <div class="card-content">
-                    <div class="content">
-                        <slot></slot>
+                <div>
+                    <div style="height: 73vh; overflow: auto;" class="content">
+                        <table>
+                            <thead>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Description</th>
+                            <th>SpeciesID</th>
+                            <th>Created</th>
+                            <th>Updated</th>
+                            </thead>
+                            <tr  v-for="item in species" :key="item.id" class="card-content">
+                                <td>{{item.id}}</td>
+                                <td>{{item.name}}</td>
+                                <td>{{item.description}}</td>
+                                <td>{{item.species_id}}</td>
+                                <td>{{item.created_at | formatDate }}</td>
+                                <td>{{item.updated_at | formatDate }}</td>
+                            </tr>
+
+                        </table>
                     </div>
                 </div>
             </div>

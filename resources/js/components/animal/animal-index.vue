@@ -11,6 +11,7 @@
                     <div style="height: 73vh; overflow: auto;" class="content">
                         <table>
                             <thead>
+                                <th>Buttons</th>
                                 <th>ID</th>
                                 <th>Name</th>
                                 <th>Description</th>
@@ -19,6 +20,8 @@
                                 <th>Updated</th>
                             </thead>
                             <tr  v-for="item in animals" :key="item.id" class="card-content">
+                                <button>Edit</button>
+                                <button>Delete</button>
                                 <td>{{item.id}}</td>
                                 <td>{{item.name}}</td>
                                 <td>{{item.description}}</td>
