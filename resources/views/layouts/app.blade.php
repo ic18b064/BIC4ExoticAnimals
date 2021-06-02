@@ -142,7 +142,10 @@
 
     <footer class="footer">
         <div class="content has-text-centered">
-            <small>Here comes some footer</small>
+            <div>
+                <h3 id="footer-text">Made with love by:</h3>
+                <div id="names">Patrik Binder, Nikolaus Ferchenbauer, Srdjan Misic, Markus Reder</div>
+            </div>
         </div>
     </footer>
 </div>
