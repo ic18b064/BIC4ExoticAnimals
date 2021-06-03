@@ -25,7 +25,7 @@ $grey:         hsl(0, 0%, 48%);
 $grey-light:   hsl(0, 0%, 71%);
 $grey-lighter: hsl(0, 0%, 86%);
 
-$card-header-background-color: darken($primary, 5%);
+$card-header-background-color: $primary;
 $card-header-color: #fff;
 
 $footer-padding: 1rem 2.5rem 2.5rem;
