@@ -12,6 +12,7 @@
                     <div v-if="!loading" class="content overflow-table">
                         <table>
                             <thead>
+                                <th>Buttons</th>
                                 <th>ID</th>
                                 <th>Name</th>
                                 <th>Description</th>
@@ -20,6 +21,8 @@
                                 <th>Updated</th>
                             </thead>
                             <tr  v-for="item in animals" :key="item.id" class="card-content">
+                                <button>Edit</button>
+                                <button>Delete</button>
                                 <td>{{item.id}}</td>
                                 <td>{{item.name}}</td>
                                 <td>{{item.description}}</td>
