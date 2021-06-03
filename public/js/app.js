@@ -3099,6 +3099,11 @@ __webpack_require__.r(__webpack_exports__);
       }
     };
   },
+  computed: {
+    loading: function loading() {
+      return !this.species || !this.animals.length;
+    }
+  },
   methods: {
     moment: moment__WEBPACK_IMPORTED_MODULE_0___default.a,
     editSpecies: function editSpecies() {
@@ -57400,8 +57405,8 @@ var Form = /*#__PURE__*/function () {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\Git\Technikum\php\BIC4ExoticAnimals\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\Git\Technikum\php\BIC4ExoticAnimals\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\Users\patri\PhpstormProjects\BIC4ExoticAnimals\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\Users\patri\PhpstormProjects\BIC4ExoticAnimals\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

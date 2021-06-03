@@ -104,6 +104,12 @@ export default {
     };
   },
 
+    computed: {
+        loading() {
+            return !this.species || !this.animals.length;
+        }
+    },
+
   methods: {
     moment,
 
