@@ -8,7 +8,7 @@
                     </h1>
                 </header>
                 <div class="card-content">
-                    <div style="height: 73vh; overflow: auto;" class="content">
+                    <div class="content overflow-table">
                         <table>
                             <thead>
                             <th>ID</th>

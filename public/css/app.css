@@ -11888,3 +11888,50 @@ label.panel-block:hover {
   cursor: pointer;
 }
 
+.flex-fill {
+  flex: 1 1 auto;
+}
+
+.flex {
+  display: flex;
+}
+
+.flex-column {
+  flex-direction: column;
+}
+
+.flex-row {
+  flex-direction: row;
+}
+
+.flex-justify-content-between {
+  justify-content: space-between;
+}
+
+.flex-justify-content-around {
+  justify-content: space-around;
+}
+
+.button.big {
+  width: 200px;
+  height: 100px;
+}
+
+.button.big:hover {
+  background-color: #22323a;
+  color: white;
+}
+
+.card-header-title {
+  text-align: center;
+}
+
+.card-header {
+  text-align: center;
+  border-radius: 15px;
+}
+
+.card {
+  border-radius: 10px;
+}
+

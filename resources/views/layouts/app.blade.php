@@ -43,7 +43,7 @@
     <nav class="navbar" role="navigation" aria-label="main navigation">
         <div class="navbar-brand">
             <a class="navbar-item" href="{{ route('welcome') }}">
-                <img src="{{asset('img/Logo.png')}}" width="112" height="28">
+                <img src="{{asset('img/Logo.png')}}" width="80">
             </a>
 
             <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false"
@@ -143,8 +143,7 @@
     <footer class="footer">
         <div class="content has-text-centered">
             <div>
-                <h3 id="footer-text">Made with love by:</h3>
-                <div id="names">Patrik Binder, Nikolaus Ferchenbauer, Srdjan Misic, Markus Reder</div>
+                <div id="names"><strong>Made with love by:</strong> Patrik Binder, Nikolaus Ferchenbauer, Srdjan Misic, Markus Reder</div>
             </div>
         </div>
     </footer>

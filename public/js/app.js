@@ -2806,10 +2806,51 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+var form = new Form({
+  'name': '',
+  'description': ''
+});
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['title'],
-  mounted: function mounted() {
-    console.log('create mounted.');
+  components: {
+    'query-messages': QueryMessage
+  },
+  data: function data() {
+    return {
+      form: form
+    };
+  },
+  methods: {
+    // submit form handler
+    submit: function submit() {
+      var _this = this;
+
+      this.form.post('/species').then(function (response) {
+        _this.$refs.msg.showSuccessMessage('Species successfully created.', 5000);
+
+        _this.form.name = '';
+        _this.form.description = '';
+      })["catch"](function (error) {
+        console.log(error), _this.$refs.msg.showErrorMessage('Species already exists.', 5000);
+      });
+    }
   }
 });
 
@@ -43569,24 +43610,130 @@ var render = function() {
   return _c("div", { staticClass: "container" }, [
     _c("div", { staticClass: "columns is-multiline" }, [
       _c("div", { staticClass: "card column is-half is-offset-one-quarter" }, [
-        _c("header", { staticClass: "card-header" }, [
-          _c("h1", { staticClass: "card-header-title" }, [
-            _vm._v(
-              "\n                    " +
-                _vm._s(_vm.title) +
-                "\n                "
-            )
-          ])
-        ]),
+        _vm._m(0),
         _vm._v(" "),
         _c("div", { staticClass: "card-content" }, [
-          _c("div", { staticClass: "content" }, [_vm._t("default")], 2)
+          _c(
+            "form",
+            {
+              staticClass: "vue-form",
+              on: {
+                submit: function($event) {
+                  $event.preventDefault()
+                  return _vm.submit($event)
+                }
+              }
+            },
+            [
+              _c("div", { staticClass: "field" }, [
+                _c("label", { staticClass: "label", attrs: { for: "name" } }, [
+                  _vm._v("Name")
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "control" }, [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.form.name,
+                        expression: "form.name"
+                      }
+                    ],
+                    staticClass: "input",
+                    attrs: {
+                      type: "text",
+                      name: "name",
+                      id: "name",
+                      required: ""
+                    },
+                    domProps: { value: _vm.form.name },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(_vm.form, "name", $event.target.value)
+                      }
+                    }
+                  })
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "field" }, [
+                _c(
+                  "label",
+                  { staticClass: "label", attrs: { for: "description" } },
+                  [_vm._v("Description")]
+                ),
+                _vm._v(" "),
+                _c("div", { staticClass: "control" }, [
+                  _c("textarea", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.form.description,
+                        expression: "form.description"
+                      }
+                    ],
+                    staticClass: "textarea",
+                    attrs: {
+                      name: "description",
+                      id: "description",
+                      required: ""
+                    },
+                    domProps: { value: _vm.form.description },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(_vm.form, "description", $event.target.value)
+                      }
+                    }
+                  })
+                ])
+              ]),
+              _vm._v(" "),
+              _vm._m(1)
+            ]
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "query-message-container" },
+            [_c("query-messages", { ref: "msg" })],
+            1
+          )
         ])
       ])
     ])
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("header", { staticClass: "card-header" }, [
+      _c("h1", { staticClass: "card-header-title" }, [
+        _vm._v("\n                    Create new species\n                ")
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", [
+      _c("input", {
+        staticClass: "button is-primary",
+        attrs: { type: "submit", value: "Create" }
+      })
+    ])
+  }
+]
 render._withStripped = true
 
 
@@ -43764,56 +43911,49 @@ var render = function() {
         _vm._m(0),
         _vm._v(" "),
         _c("div", { staticClass: "card-content" }, [
-          _c(
-            "div",
-            {
-              staticClass: "content",
-              staticStyle: { height: "73vh", overflow: "auto" }
-            },
-            [
-              _c(
-                "table",
-                [
-                  _vm._m(1),
-                  _vm._v(" "),
-                  _vm._l(_vm.species, function(item) {
-                    return _c(
-                      "tr",
-                      { key: item.id, staticClass: "card-content" },
-                      [
-                        _c("td", [
-                          _c(
-                            "a",
-                            {
-                              on: {
-                                click: function($event) {
-                                  return _vm.showSpecies(item)
-                                }
+          _c("div", { staticClass: "content overflow-table" }, [
+            _c(
+              "table",
+              [
+                _vm._m(1),
+                _vm._v(" "),
+                _vm._l(_vm.species, function(item) {
+                  return _c(
+                    "tr",
+                    { key: item.id, staticClass: "card-content" },
+                    [
+                      _c("td", [
+                        _c(
+                          "a",
+                          {
+                            on: {
+                              click: function($event) {
+                                return _vm.showSpecies(item)
                               }
-                            },
-                            [_vm._v(_vm._s(item.id))]
-                          )
-                        ]),
-                        _vm._v(" "),
-                        _c("td", [_vm._v(_vm._s(item.name))]),
-                        _vm._v(" "),
-                        _c("td", [_vm._v(_vm._s(item.description))]),
-                        _vm._v(" "),
-                        _c("td", [
-                          _vm._v(_vm._s(_vm._f("formatDate")(item.created_at)))
-                        ]),
-                        _vm._v(" "),
-                        _c("td", [
-                          _vm._v(_vm._s(_vm._f("formatDate")(item.updated_at)))
-                        ])
-                      ]
-                    )
-                  })
-                ],
-                2
-              )
-            ]
-          )
+                            }
+                          },
+                          [_vm._v(_vm._s(item.id))]
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(item.name))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(item.description))]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _vm._v(_vm._s(_vm._f("formatDate")(item.created_at)))
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _vm._v(_vm._s(_vm._f("formatDate")(item.updated_at)))
+                      ])
+                    ]
+                  )
+                })
+              ],
+              2
+            )
+          ])
         ])
       ])
     ])
@@ -57405,8 +57545,8 @@ var Form = /*#__PURE__*/function () {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\Users\patri\PhpstormProjects\BIC4ExoticAnimals\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\Users\patri\PhpstormProjects\BIC4ExoticAnimals\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\Git\Technikum\php\BIC4ExoticAnimals\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\Git\Technikum\php\BIC4ExoticAnimals\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
