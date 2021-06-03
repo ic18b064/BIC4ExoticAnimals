@@ -12,33 +12,25 @@
                     <div v-if="!loading" class="content overflow-table">
                         <table>
                             <thead>
-                                <th></th>
                                 <th>ID</th>
                                 <th>Name</th>
                                 <th>Description</th>
-                                <th>SpeciesID</th>
+                                <th>Species</th>
                                 <th>Created</th>
                                 <th>Updated</th>
                             </thead>
                             <tr  v-for="item in animals" :key="item.id" class="card-content">
-                                <button class="button is-fullwidth">
-                                    Edit
-                                </button>
-                                <button class="button is-fullwidth">
-                                    Delete
-                                </button>
-                                <td>{{item.id}}</td>
+                                <td>
+                                    <a @click="showAnimal(item)">{{item.id}}</a>
+                                </td>
                                 <td>{{item.name}}</td>
                                 <td>{{item.description}}</td>
                                 <td>
-                                    <a @click="showSpecies(item.species_id)">
-                                        {{item.species_id}}
-                                    </a>
+                                    <a @click="showSpecies(item.species_id)">{{ getSpeciesName(item.species_id) }}</a>
                                 </td>
                                 <td>{{item.created_at | formatDate }}</td>
                                 <td>{{item.updated_at | formatDate }}</td>
                             </tr>
-
                         </table>
                     </div>
                 </div>
@@ -49,29 +41,46 @@
 
 <script>
 export default {
-    props: ['title'],
-    mounted() {
-        console.log('index mounted.')
-    }, data() {
+    
+    data() {
         return {
-            animals: []
+            animals: [],
+            species: []
         }
     },
+
     created() {
         axios.get('/list/animal').then((response) => {
             this.animals = response.data;
         });
+
+        axios.get('/list/species').then((response) => {
+            this.species = response.data;
+        }).catch(error => {
+            console.log(error)
+        });
     },
 
     methods: {
-        showSpecies(specieId){
-            window.location.href = '/species/' + specieId;
+        showAnimal(animal){
+            window.location.href = '/animal/' + animal.slug;
+        },
+        showSpecies(specie){
+            window.location.href = '/species/' + specie.slug;
+        },
+        getSpeciesName(speciesId) {
+            
+            if (speciesId === undefined) {
+                return '';
+            }
+            
+            return this.species.filter(k => k.id == speciesId)[0]?.name;
         }
     },
 
     computed: {
         loading() {
-            return !this.animals.length;
+            return !this.animals.length || !this.species.length;
         }
     }
 

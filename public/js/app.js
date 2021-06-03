@@ -2146,22 +2146,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['title'],
-  mounted: function mounted() {
-    console.log('index mounted.');
-  },
   data: function data() {
     return {
-      animals: []
+      animals: [],
+      species: []
     };
   },
   created: function created() {
@@ -2170,15 +2159,34 @@ __webpack_require__.r(__webpack_exports__);
     axios.get('/list/animal').then(function (response) {
       _this.animals = response.data;
     });
+    axios.get('/list/species').then(function (response) {
+      _this.species = response.data;
+    })["catch"](function (error) {
+      console.log(error);
+    });
   },
   methods: {
-    showSpecies: function showSpecies(specieId) {
-      window.location.href = '/species/' + specieId;
+    showAnimal: function showAnimal(animal) {
+      window.location.href = '/animal/' + animal.slug;
+    },
+    showSpecies: function showSpecies(specie) {
+      window.location.href = '/species/' + specie.slug;
+    },
+    getSpeciesName: function getSpeciesName(speciesId) {
+      var _this$species$filter$;
+
+      if (speciesId === undefined) {
+        return '';
+      }
+
+      return (_this$species$filter$ = this.species.filter(function (k) {
+        return k.id == speciesId;
+      })[0]) === null || _this$species$filter$ === void 0 ? void 0 : _this$species$filter$.name;
     }
   },
   computed: {
     loading: function loading() {
-      return !this.animals.length;
+      return !this.animals.length || !this.species.length;
     }
   }
 });
@@ -42101,19 +42109,19 @@ var render = function() {
                         "tr",
                         { key: item.id, staticClass: "card-content" },
                         [
-                          _c("button", { staticClass: "button is-fullwidth" }, [
-                            _vm._v(
-                              "\n                                Edit\n                            "
+                          _c("td", [
+                            _c(
+                              "a",
+                              {
+                                on: {
+                                  click: function($event) {
+                                    return _vm.showAnimal(item)
+                                  }
+                                }
+                              },
+                              [_vm._v(_vm._s(item.id))]
                             )
                           ]),
-                          _vm._v(" "),
-                          _c("button", { staticClass: "button is-fullwidth" }, [
-                            _vm._v(
-                              "\n                                Delete\n                            "
-                            )
-                          ]),
-                          _vm._v(" "),
-                          _c("td", [_vm._v(_vm._s(item.id))]),
                           _vm._v(" "),
                           _c("td", [_vm._v(_vm._s(item.name))]),
                           _vm._v(" "),
@@ -42131,9 +42139,7 @@ var render = function() {
                               },
                               [
                                 _vm._v(
-                                  "\n                                    " +
-                                    _vm._s(item.species_id) +
-                                    "\n                                "
+                                  _vm._s(_vm.getSpeciesName(item.species_id))
                                 )
                               ]
                             )
@@ -42179,15 +42185,13 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("thead", [
-      _c("th"),
-      _vm._v(" "),
       _c("th", [_vm._v("ID")]),
       _vm._v(" "),
       _c("th", [_vm._v("Name")]),
       _vm._v(" "),
       _c("th", [_vm._v("Description")]),
       _vm._v(" "),
-      _c("th", [_vm._v("SpeciesID")]),
+      _c("th", [_vm._v("Species")]),
       _vm._v(" "),
       _c("th", [_vm._v("Created")]),
       _vm._v(" "),
@@ -55823,8 +55827,8 @@ var Form = /*#__PURE__*/function () {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\Users\patri\PhpstormProjects\BIC4ExoticAnimals\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\Users\patri\PhpstormProjects\BIC4ExoticAnimals\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\Git\Technikum\php\BIC4ExoticAnimals\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\Git\Technikum\php\BIC4ExoticAnimals\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
