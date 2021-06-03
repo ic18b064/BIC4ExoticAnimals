@@ -11870,3 +11870,21 @@ label.panel-block:hover {
   background-color: #22323a;
 }
 
+.item-list {
+  -moz-column-count: 2;
+       column-count: 2;
+  list-style-type: none !important;
+}
+
+.item-list li {
+  border: 1px solid;
+  border-radius: 15px;
+  text-align: center;
+}
+
+.item-list li:hover {
+  background-color: #22323a;
+  color: white;
+  cursor: pointer;
+}
+

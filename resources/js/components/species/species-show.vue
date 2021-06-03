@@ -50,34 +50,36 @@
                 </small>
               </div>
               <br />
-              <div class="media-content">
-                <strong>
-                  <div>Animals with this species</div>
-                </strong>
-                <small>
-                  <div
-                    class="content"
-                    v-for="animal in animals"
-                    v-if="animal.species_id == specie.id"
-                  >
-                    <a @click="showAnimal(animal)">{{ animal.name }}</a>
-                  </div>
-                </small>
-              </div>
-              <br />
               <div>
                 <button class="button is-primary" @click="editSpecies()">
                   Edit
                 </button>
-                <button class="button is-primary" @click="deleteSpecies()">
+                <button
+                  class="button is-primary"
+                  @click="deleteSpeciesPrompt()"
+                >
                   Delete
                 </button>
+              </div>
+              <br/>
+              <div class="media-content">
+                <strong>
+                  <div>Animals with this species</div>
+                </strong>
+                <ul class="item-list">
+                    <li @click="showAnimal(animal)" v-if="animal.species_id == specie.id" v-for="animal in animals">{{animal.name}}</li>
+                </ul>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
+    <confirmation-dialog
+      ref="deleteDialog"
+      @onYes="deleteSpecies()"
+      @onNo="closeDeletePrompt()"
+    />
   </div>
 </template>
 
@@ -108,22 +110,23 @@ export default {
     editSpecies() {
       window.location.href = "/species/" + this.specie.slug + "/edit";
     },
-
+    closeDeletePrompt() {
+      this.$refs.deleteDialog.close();
+    },
+    deleteSpeciesPrompt() {
+      this.$refs.deleteDialog.showYesNo(
+        "Are you sure you want to delete this animal?\nIt cannot be restored."
+      );
+    },
     deleteSpecies() {
-      if (
-        confirm(
-          "Are you sure you want to delete this species?\nIt cannot be restored"
-        )
-      ) {
-        axios
-          .delete("/species/" + this.specie.slug)
-          .then((response) => {
-            window.location.href = "/species";
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-      }
+      axios
+        .delete("/species/" + this.specie.slug)
+        .then((response) => {
+          window.location.href = "/species";
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
 
     showAnimal(animal) {
@@ -159,4 +162,3 @@ export default {
   },
 };
 </script>
-<style scoped></style>

@@ -132,3 +132,20 @@
 	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
 	background-color: $primary;
 }
+
+.item-list {
+    column-count: 2;
+    list-style-type: none !important;
+}
+
+.item-list li {
+    border: 1px solid;
+    border-radius: 15px;
+    text-align: center;
+}
+
+.item-list li:hover {
+    background-color: $primary;
+    color: white;
+    cursor: pointer;
+}
