@@ -24,6 +24,7 @@ window.Vue = vue;
 
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('query-message', require('./components/base/QueryMessage.vue').default);
+Vue.component('confirmation-dialog', require('./components/base/Dialog.vue').default);
 Vue.component('animal-index', require('./components/animal/animal-index').default);
 Vue.component('animal-create', require('./components/animal/animal-create').default);
 Vue.component('animal-edit', require('./components/animal/animal-edit').default);
