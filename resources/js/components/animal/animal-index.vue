@@ -7,11 +7,12 @@
                         Animals
                     </h1>
                 </header>
-                <div>
-                    <div style="height: 73vh; overflow: auto;" class="content">
+                <div class="table-container">
+                    <div v-if="loading" class="lds-dual-ring"></div>
+                    <div v-if="!loading" class="content overflow-table">
                         <table>
                             <thead>
-                                <th>Buttons</th>
+                                <th></th>
                                 <th>ID</th>
                                 <th>Name</th>
                                 <th>Description</th>
@@ -20,8 +21,12 @@
                                 <th>Updated</th>
                             </thead>
                             <tr  v-for="item in animals" :key="item.id" class="card-content">
-                                <button>Edit</button>
-                                <button>Delete</button>
+                                <button class="button is-fullwidth">
+                                    Edit
+                                </button>
+                                <button class="button is-fullwidth">
+                                    Delete
+                                </button>
                                 <td>{{item.id}}</td>
                                 <td>{{item.name}}</td>
                                 <td>{{item.description}}</td>
@@ -61,6 +66,12 @@ export default {
     methods: {
         showSpecies(specieId){
             window.location.href = '/species/' + specieId;
+        }
+    },
+
+    computed: {
+        loading() {
+            return !this.animals.length;
         }
     }
 

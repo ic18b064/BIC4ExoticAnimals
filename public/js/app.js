@@ -2012,10 +2012,7 @@ var form = new Form({
     return {
       form: form,
       species: [],
-      noSpeciesID: false,
-      fail: false,
-      success: false,
-      message: ''
+      noSpeciesID: false
     };
   },
   methods: {
@@ -2024,36 +2021,21 @@ var form = new Form({
       var _this = this;
 
       this.form.post('/animal').then(function (response) {
-        _this.success = true;
-        _this.message = 'Animal successfully created';
-
-        _this.resetMessage(5000);
+        _this.$refs.msg.showSuccessMessage('Animal successfully created.', 5000);
 
         _this.form.name = '';
         _this.form.description = '';
         _this.form.species_id = '';
       })["catch"](function (error) {
-        _this.message = 'Animal already exists.';
-        _this.fail = true;
-        _this.success = false;
-
-        _this.resetMessage(5000);
+        _this.$refs.msg.showErrorMessage('Animal already exists.', 5000);
 
         console.log(error);
       });
-    },
-    resetMessage: function resetMessage(delay) {
-      setTimeout(function () {
-        this.success = false;
-        this.fail = false;
-        this.message = '';
-      }.bind(this), delay);
     }
   },
   created: function created() {
     var _this2 = this;
 
-    console.log('created');
     axios.get('/list/species').then(function (response) {
       _this2.species = response.data;
       if (_this2.loading) _this2.noSpeciesID = true;
@@ -2167,6 +2149,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['title'],
   mounted: function mounted() {
@@ -2187,6 +2174,11 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     showSpecies: function showSpecies(specieId) {
       window.location.href = '/species/' + specieId;
+    }
+  },
+  computed: {
+    loading: function loading() {
+      return !this.animals.length;
     }
   }
 });
@@ -2286,24 +2278,45 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "QueryMessage",
-  props: {
-    success: {
-      type: Boolean,
-      required: true
-    },
-    fail: {
-      type: Boolean,
-      required: true
-    },
-    message: {
-      required: true
-    }
+  data: function data() {
+    return {
+      fail: false,
+      success: false,
+      message: ''
+    };
   },
   methods: {
     show: function show() {
       return this.success || this.fail;
+    },
+    showSuccessMessage: function showSuccessMessage(message, autoHideDelay) {
+      this.fail = false;
+      this.success = true;
+      this.message = message;
+
+      if (autoHideDelay) {
+        this.resetMessage(autoHideDelay);
+      }
+    },
+    showErrorMessage: function showErrorMessage(message, autoHideDelay) {
+      this.fail = true;
+      this.success = false;
+      this.message = message;
+
+      if (autoHideDelay) {
+        this.resetMessage(autoHideDelay);
+      }
+    },
+    resetMessage: function resetMessage(delay) {
+      setTimeout(function () {
+        this.fail = false;
+        this.success = false;
+        this.message = '';
+      }.bind(this), delay);
     }
   }
 });
@@ -41972,16 +41985,8 @@ var render = function() {
             _vm._v(" "),
             _c(
               "div",
-              { staticStyle: { "margin-top": "15px" } },
-              [
-                _c("query-messages", {
-                  attrs: {
-                    fail: _vm.fail,
-                    success: _vm.success,
-                    message: _vm.message
-                  }
-                })
-              ],
+              { staticClass: "query-message-container" },
+              [_c("query-messages", { ref: "msg" })],
               1
             )
           ])
@@ -42081,69 +42086,78 @@ var render = function() {
       _c("div", { staticClass: "card column" }, [
         _vm._m(0),
         _vm._v(" "),
-        _c("div", [
-          _c(
-            "div",
-            {
-              staticClass: "content",
-              staticStyle: { height: "73vh", overflow: "auto" }
-            },
-            [
-              _c(
-                "table",
-                [
-                  _vm._m(1),
-                  _vm._v(" "),
-                  _vm._l(_vm.animals, function(item) {
-                    return _c(
-                      "tr",
-                      { key: item.id, staticClass: "card-content" },
-                      [
-                        _c("button", [_vm._v("Edit")]),
-                        _vm._v(" "),
-                        _c("button", [_vm._v("Delete")]),
-                        _vm._v(" "),
-                        _c("td", [_vm._v(_vm._s(item.id))]),
-                        _vm._v(" "),
-                        _c("td", [_vm._v(_vm._s(item.name))]),
-                        _vm._v(" "),
-                        _c("td", [_vm._v(_vm._s(item.description))]),
-                        _vm._v(" "),
-                        _c("td", [
-                          _c(
-                            "a",
-                            {
-                              on: {
-                                click: function($event) {
-                                  return _vm.showSpecies(item.species_id)
+        _c("div", { staticClass: "table-container" }, [
+          _vm.loading ? _c("div", { staticClass: "lds-dual-ring" }) : _vm._e(),
+          _vm._v(" "),
+          !_vm.loading
+            ? _c("div", { staticClass: "content overflow-table" }, [
+                _c(
+                  "table",
+                  [
+                    _vm._m(1),
+                    _vm._v(" "),
+                    _vm._l(_vm.animals, function(item) {
+                      return _c(
+                        "tr",
+                        { key: item.id, staticClass: "card-content" },
+                        [
+                          _c("button", { staticClass: "button is-fullwidth" }, [
+                            _vm._v(
+                              "\n                                Edit\n                            "
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("button", { staticClass: "button is-fullwidth" }, [
+                            _vm._v(
+                              "\n                                Delete\n                            "
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v(_vm._s(item.id))]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v(_vm._s(item.name))]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v(_vm._s(item.description))]),
+                          _vm._v(" "),
+                          _c("td", [
+                            _c(
+                              "a",
+                              {
+                                on: {
+                                  click: function($event) {
+                                    return _vm.showSpecies(item.species_id)
+                                  }
                                 }
-                              }
-                            },
-                            [
-                              _vm._v(
-                                "\n                                    " +
-                                  _vm._s(item.species_id) +
-                                  "\n                                "
-                              )
-                            ]
-                          )
-                        ]),
-                        _vm._v(" "),
-                        _c("td", [
-                          _vm._v(_vm._s(_vm._f("formatDate")(item.created_at)))
-                        ]),
-                        _vm._v(" "),
-                        _c("td", [
-                          _vm._v(_vm._s(_vm._f("formatDate")(item.updated_at)))
-                        ])
-                      ]
-                    )
-                  })
-                ],
-                2
-              )
-            ]
-          )
+                              },
+                              [
+                                _vm._v(
+                                  "\n                                    " +
+                                    _vm._s(item.species_id) +
+                                    "\n                                "
+                                )
+                              ]
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("td", [
+                            _vm._v(
+                              _vm._s(_vm._f("formatDate")(item.created_at))
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("td", [
+                            _vm._v(
+                              _vm._s(_vm._f("formatDate")(item.updated_at))
+                            )
+                          ])
+                        ]
+                      )
+                    })
+                  ],
+                  2
+                )
+              ])
+            : _vm._e()
         ])
       ])
     ])
@@ -42165,7 +42179,7 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("thead", [
-      _c("th", [_vm._v("Buttons")]),
+      _c("th"),
       _vm._v(" "),
       _c("th", [_vm._v("ID")]),
       _vm._v(" "),
@@ -42286,20 +42300,22 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm.show()
-    ? _c(
-        "article",
-        {
-          staticClass: "message",
-          class: { "is-success": _vm.success, "is-danger": _vm.fail }
-        },
-        [
-          _c("div", { staticClass: "message-body" }, [
-            _vm._v("\n        " + _vm._s(_vm.message) + "\n    ")
-          ])
-        ]
-      )
-    : _vm._e()
+  return _c("transition", { attrs: { name: "slide-fade" } }, [
+    _vm.show()
+      ? _c(
+          "article",
+          {
+            staticClass: "message",
+            class: { "is-success": _vm.success, "is-danger": _vm.fail }
+          },
+          [
+            _c("div", { staticClass: "message-body" }, [
+              _vm._v("\n            " + _vm._s(_vm.message) + "\n        ")
+            ])
+          ]
+        )
+      : _vm._e()
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
