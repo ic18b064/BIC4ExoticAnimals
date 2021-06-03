@@ -2164,9 +2164,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['title'],
   mounted: function mounted() {
@@ -2393,9 +2390,6 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-//
-//
-//
 //
 //
 //
@@ -42102,10 +42096,6 @@ var render = function() {
                       "tr",
                       { key: item.id, staticClass: "card-content" },
                       [
-                        _c("button", [_vm._v("Edit")]),
-                        _vm._v(" "),
-                        _c("button", [_vm._v("Delete")]),
-                        _vm._v(" "),
                         _c("td", [_vm._v(_vm._s(item.id))]),
                         _vm._v(" "),
                         _c("td", [_vm._v(_vm._s(item.name))]),
@@ -42168,8 +42158,6 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("thead", [
-      _c("th", [_vm._v("Buttons")]),
-      _vm._v(" "),
       _c("th", [_vm._v("ID")]),
       _vm._v(" "),
       _c("th", [_vm._v("Name")]),
@@ -42415,7 +42403,7 @@ var render = function() {
       _c("div", { staticClass: "card column is-half is-offset-one-quarter" }, [
         _vm._m(0),
         _vm._v(" "),
-        _c("div", [
+        _c("div", { staticClass: "card-content" }, [
           _c(
             "div",
             {
@@ -42438,8 +42426,6 @@ var render = function() {
                         _c("td", [_vm._v(_vm._s(item.name))]),
                         _vm._v(" "),
                         _c("td", [_vm._v(_vm._s(item.description))]),
-                        _vm._v(" "),
-                        _c("td", [_vm._v(_vm._s(item.species_id))]),
                         _vm._v(" "),
                         _c("td", [
                           _vm._v(_vm._s(_vm._f("formatDate")(item.created_at)))
@@ -42482,8 +42468,6 @@ var staticRenderFns = [
       _c("th", [_vm._v("Name")]),
       _vm._v(" "),
       _c("th", [_vm._v("Description")]),
-      _vm._v(" "),
-      _c("th", [_vm._v("SpeciesID")]),
       _vm._v(" "),
       _c("th", [_vm._v("Created")]),
       _vm._v(" "),
@@ -55814,8 +55798,8 @@ var Form = /*#__PURE__*/function () {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\Users\Markus\PhpstormProjects\BIC4ExoticAnimals\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\Users\Markus\PhpstormProjects\BIC4ExoticAnimals\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\Users\patri\PhpstormProjects\BIC4ExoticAnimals\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\Users\patri\PhpstormProjects\BIC4ExoticAnimals\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
