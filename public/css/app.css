@@ -11792,9 +11792,18 @@ label.panel-block:hover {
   opacity: 0;
 }
 
-.overflow-table {
+.overflow-table,
+.overflow-search-table {
   max-height: 70vh;
   overflow-y: auto;
+}
+
+.overflow-search-table {
+  max-height: 55vh;
+}
+
+.centered {
+  text-align: center;
 }
 
 /* Loading indicator */

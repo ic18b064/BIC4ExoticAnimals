@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <div class="columns is-multiline">
-            <div class="card column is-half is-offset-one-quarter">
+            <div class="card column">
                 <header class="card-header">
                     <h1 class="card-header-title">
                         Species
@@ -18,7 +18,9 @@
                             <th>Updated</th>
                             </thead>
                             <tr  v-for="item in species" :key="item.id" class="card-content">
-                                <td>{{item.id}}</td>
+                                <td>
+                                    <a @click="showSpecies(item)">{{item.id}}</a>
+                                </td>
                                 <td>{{item.name}}</td>
                                 <td>{{item.description}}</td>
                                 <td>{{item.created_at | formatDate }}</td>
@@ -45,6 +47,11 @@ export default {
         axios.get('/list/species').then((response) => {
             this.species = response.data;
         });
+    },
+    methods: {
+        showSpecies(species){
+            window.location.href = '/species/' + species.slug;
+        }
     }
 }
 </script>

@@ -73,6 +73,15 @@
     overflow-y: auto;
 }
 
+.overflow-search-table {
+    @extend .overflow-table;
+    max-height: 55vh;
+}
+
+.centered {
+    text-align: center;
+}
+
 /* Loading indicator */
 .lds-dual-ring {
     display: inline-block;

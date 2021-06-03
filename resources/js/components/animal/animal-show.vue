@@ -1,8 +1,9 @@
 <template>
   <div class="container">
     <div class="columns is-multiline">
-      <div class="card column is-half is-offset-one-quarter">
-        <div class="card-content">
+      <div :class="loading ? 'centered' : ''" class="card column is-half is-offset-one-quarter">
+        <div v-if="loading" class="lds-dual-ring"></div>
+        <div v-if="!loading" class="card-content">
           <div>
             <header class="card-header">
               <h1 class="card-header-title">
@@ -82,7 +83,6 @@ import moment from "moment";
 export default {
   data() {
     return {
-      animals: [],
       animal: {
         name: "",
         description: "",
@@ -92,6 +92,12 @@ export default {
       },
       species: [],
     };
+  },
+
+  computed: {
+    loading() {
+        return !this.animal || !this.species.length;
+    }
   },
 
   methods: {

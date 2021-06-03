@@ -65,8 +65,8 @@ export default {
         showAnimal(animal){
             window.location.href = '/animal/' + animal.slug;
         },
-        showSpecies(specie){
-            window.location.href = '/species/' + specie.slug;
+        showSpecies(speciesId){
+            window.location.href = '/species/' + this.getSpeciesSlug(speciesId);
         },
         getSpeciesName(speciesId) {
             
@@ -75,6 +75,14 @@ export default {
             }
             
             return this.species.filter(k => k.id == speciesId)[0]?.name;
+        },
+        getSpeciesSlug(speciesId) {
+            
+            if (speciesId === undefined) {
+                return '';
+            }
+            
+            return this.species.filter(k => k.id == speciesId)[0]?.slug;
         }
     },
 

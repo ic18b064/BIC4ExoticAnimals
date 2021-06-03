@@ -42,9 +42,8 @@
                             <input type="submit" class="button is-primary" value="Update">
                         </div>
                     </form>
-                    <br/>
-                    <div>
-                        <button class="button is-primary" @click="deleteAnimal()">Delete</button>
+                    <div class="query-message-container">
+                        <query-messages ref="msg"></query-messages>
                     </div>
                 </div>
             </div>
@@ -62,25 +61,18 @@
 
     export default {
 
+        components: {
+            'query-messages': QueryMessage
+        },
+
         methods: {
-            // submit form handler
             submit() {
                 this.form.put('/animal/' + this.animal.slug).then((response) => {
-                    alert("Successfully updated animal")
+                    this.$refs.msg.showSuccessMessage('Animal successfully updated.', 5000);
                 }).catch(error => {
                     console.log(error),
-                    alert("ERROR:\nAnimal name already exists")
+                    this.$refs.msg.showSuccessMessage('An error occured while trying to update animal.', 5000);
                 });
-            },
-
-            deleteAnimal(){
-                if (confirm("Are you sure you want to delete this animal?\nIt cannot be restored")) {
-                    axios.delete('/animal/' + this.animal.slug).then(response => {
-                        window.location.href = '/animal';
-                    }).catch(error => {
-                        console.log(error)
-                    });
-                }
             }
         },
 
@@ -139,4 +131,3 @@
         }
     }
 </script>
-<style scoped></style>

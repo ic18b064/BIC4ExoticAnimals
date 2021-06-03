@@ -2121,7 +2121,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 var form = new Form({
   'name': '',
   'description': '',
@@ -2129,23 +2128,18 @@ var form = new Form({
   'noReset': ['species_id']
 });
 /* harmony default export */ __webpack_exports__["default"] = ({
+  components: {
+    'query-messages': QueryMessage
+  },
   methods: {
-    // submit form handler
     submit: function submit() {
+      var _this = this;
+
       this.form.put('/animal/' + this.animal.slug).then(function (response) {
-        alert("Successfully updated animal");
+        _this.$refs.msg.showSuccessMessage('Animal successfully updated.', 5000);
       })["catch"](function (error) {
-        console.log(error), alert("ERROR:\nAnimal name already exists");
+        console.log(error), _this.$refs.msg.showSuccessMessage('An error occured while trying to update animal.', 5000);
       });
-    },
-    deleteAnimal: function deleteAnimal() {
-      if (confirm("Are you sure you want to delete this animal?\nIt cannot be restored")) {
-        axios["delete"]('/animal/' + this.animal.slug).then(function (response) {
-          window.location.href = '/animal';
-        })["catch"](function (error) {
-          console.log(error);
-        });
-      }
     }
   },
   data: function data() {
@@ -2160,26 +2154,26 @@ var form = new Form({
     };
   },
   created: function created() {
-    var _this = this;
+    var _this2 = this;
 
     var url = window.location.pathname.split('/');
     var animal = url[2];
     axios.get('/list/animal').then(function (response) {
       for (var i = 0; i < response.data.length; i++) {
         if (animal == response.data[i].slug) {
-          _this.animal.slug = response.data[i].slug;
-          _this.form.name = response.data[i].name;
-          _this.form.description = response.data[i].description;
-          _this.form.species_id = response.data[i].species_id;
-          _this.form.noReset = ['name', 'description', 'species_id'];
+          _this2.animal.slug = response.data[i].slug;
+          _this2.form.name = response.data[i].name;
+          _this2.form.description = response.data[i].description;
+          _this2.form.species_id = response.data[i].species_id;
+          _this2.form.noReset = ['name', 'description', 'species_id'];
         }
       }
     })["catch"](function (error) {
       console.log(error);
     });
     axios.get('/list/species').then(function (response) {
-      _this.species = response.data;
-      if (_this.loading) _this.noSpeciesID = true;
+      _this2.species = response.data;
+      if (_this2.loading) _this2.noSpeciesID = true;
     })["catch"](function (error) {
       console.log(error);
     });
@@ -2273,8 +2267,8 @@ __webpack_require__.r(__webpack_exports__);
     showAnimal: function showAnimal(animal) {
       window.location.href = '/animal/' + animal.slug;
     },
-    showSpecies: function showSpecies(specie) {
-      window.location.href = '/species/' + specie.slug;
+    showSpecies: function showSpecies(speciesId) {
+      window.location.href = '/species/' + this.getSpeciesSlug(speciesId);
     },
     getSpeciesName: function getSpeciesName(speciesId) {
       var _this$species$filter$;
@@ -2286,6 +2280,17 @@ __webpack_require__.r(__webpack_exports__);
       return (_this$species$filter$ = this.species.filter(function (k) {
         return k.id == speciesId;
       })[0]) === null || _this$species$filter$ === void 0 ? void 0 : _this$species$filter$.name;
+    },
+    getSpeciesSlug: function getSpeciesSlug(speciesId) {
+      var _this$species$filter$2;
+
+      if (speciesId === undefined) {
+        return '';
+      }
+
+      return (_this$species$filter$2 = this.species.filter(function (k) {
+        return k.id == speciesId;
+      })[0]) === null || _this$species$filter$2 === void 0 ? void 0 : _this$species$filter$2.slug;
     }
   },
   computed: {
@@ -2325,10 +2330,114 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['title'],
-  mounted: function mounted() {
-    console.log('search mounted.');
+  data: function data() {
+    return {
+      animals: [],
+      animal: {
+        name: "",
+        description: "",
+        species_id: ""
+      },
+      species: [],
+      userInput: null
+    };
+  },
+  watch: {
+    userInput: function userInput() {
+      if (this.userInput.length >= 3) {
+        this.search();
+      } else {
+        this.animals = [];
+      }
+    }
+  },
+  methods: {
+    search: function search() {
+      var _this = this;
+
+      axios.post("/search/animal?q=" + this.userInput).then(function (response) {
+        _this.animals = response.data;
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    },
+    showAnimal: function showAnimal(animal) {
+      window.location.href = "/animal/" + animal.slug;
+    },
+    editAnimal: function editAnimal(animal) {
+      window.location.href = "/animal/" + animal.slug + "/edit";
+    },
+    showSpecies: function showSpecies(speciesId) {
+      window.location.href = "/species/" + this.getSpeciesSlug(speciesId);
+    },
+    getSpeciesName: function getSpeciesName(speciesId) {
+      var _this$species$filter$;
+
+      if (speciesId === undefined) {
+        return "";
+      }
+
+      return (_this$species$filter$ = this.species.filter(function (k) {
+        return k.id == speciesId;
+      })[0]) === null || _this$species$filter$ === void 0 ? void 0 : _this$species$filter$.name;
+    },
+    getSpeciesSlug: function getSpeciesSlug(speciesId) {
+      var _this$species$filter$2;
+
+      if (speciesId === undefined) {
+        return "";
+      }
+
+      return (_this$species$filter$2 = this.species.filter(function (k) {
+        return k.id == speciesId;
+      })[0]) === null || _this$species$filter$2 === void 0 ? void 0 : _this$species$filter$2.slug;
+    }
+  },
+  created: function created() {
+    var _this2 = this;
+
+    axios.get("/list/species").then(function (response) {
+      _this2.species = response.data;
+    })["catch"](function (error) {
+      console.log(error);
+    });
   }
 });
 
@@ -2423,11 +2532,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      animals: [],
       animal: {
         name: "",
         description: "",
@@ -2437,6 +2546,11 @@ __webpack_require__.r(__webpack_exports__);
       },
       species: []
     };
+  },
+  computed: {
+    loading: function loading() {
+      return !this.animal || !this.species.length;
+    }
   },
   methods: {
     moment: moment__WEBPACK_IMPORTED_MODULE_0___default.a,
@@ -2781,6 +2895,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['title'],
   mounted: function mounted() {
@@ -2797,6 +2913,11 @@ __webpack_require__.r(__webpack_exports__);
     axios.get('/list/species').then(function (response) {
       _this.species = response.data;
     });
+  },
+  methods: {
+    showSpecies: function showSpecies(species) {
+      window.location.href = '/species/' + species.slug;
+    }
   }
 });
 
@@ -2811,6 +2932,8 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_0__);
 //
 //
 //
@@ -2830,10 +2953,125 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['title'],
-  mounted: function mounted() {
-    console.log('create mounted.');
+  data: function data() {
+    return {
+      species: [],
+      specie: {
+        id: "",
+        name: "",
+        description: "",
+        created_at: "",
+        updated_at: ""
+      },
+      animals: [],
+      animal: {
+        species_id: ""
+      }
+    };
+  },
+  methods: {
+    moment: moment__WEBPACK_IMPORTED_MODULE_0___default.a,
+    editSpecies: function editSpecies() {
+      window.location.href = "/species/" + this.specie.slug + "/edit";
+    },
+    deleteSpecies: function deleteSpecies() {
+      if (confirm("Are you sure you want to delete this species?\nIt cannot be restored")) {
+        axios["delete"]("/species/" + this.specie.slug).then(function (response) {
+          window.location.href = "/species";
+        })["catch"](function (error) {
+          console.log(error);
+        });
+      }
+    },
+    showAnimal: function showAnimal(animal) {
+      window.location.href = "/animal/" + animal.slug;
+    }
+  },
+  created: function created() {
+    var _this = this;
+
+    var url = window.location.pathname.split("/");
+    var specie = url[2];
+    axios.get("/list/species").then(function (response) {
+      for (var i = 0; i < response.data.length; i++) {
+        if (specie == response.data[i].slug) {
+          _this.specie = response.data[i];
+        }
+      }
+    })["catch"](function (error) {
+      console.log(error);
+    });
+    axios.get("/list/animal").then(function (response) {
+      _this.animals = response.data;
+    })["catch"](function (error) {
+      console.log(error);
+    });
   }
 });
 
@@ -42365,10 +42603,10 @@ render._withStripped = true
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/animal/animal-edit.vue?vue&type=template&id=5ed65933&scoped=true&":
-/*!*********************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/animal/animal-edit.vue?vue&type=template&id=5ed65933&scoped=true& ***!
-  \*********************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/animal/animal-edit.vue?vue&type=template&id=5ed65933&":
+/*!*********************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/animal/animal-edit.vue?vue&type=template&id=5ed65933& ***!
+  \*********************************************************************************************************************************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -42564,22 +42802,12 @@ var render = function() {
             ]
           ),
           _vm._v(" "),
-          _c("br"),
-          _vm._v(" "),
-          _c("div", [
-            _c(
-              "button",
-              {
-                staticClass: "button is-primary",
-                on: {
-                  click: function($event) {
-                    return _vm.deleteAnimal()
-                  }
-                }
-              },
-              [_vm._v("Delete")]
-            )
-          ])
+          _c(
+            "div",
+            { staticClass: "query-message-container" },
+            [_c("query-messages", { ref: "msg" })],
+            1
+          )
         ])
       ])
     ])
@@ -42762,25 +42990,125 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container" }, [
     _c("div", { staticClass: "columns is-multiline" }, [
-      _c("div", { staticClass: "card column is-half is-offset-one-quarter" }, [
-        _c("header", { staticClass: "card-header" }, [
-          _c("h1", { staticClass: "card-header-title" }, [
-            _vm._v(
-              "\n                    " +
-                _vm._s(_vm.title) +
-                "\n                "
-            )
+      _c("div", { staticClass: "card column" }, [
+        _vm._m(0),
+        _vm._v(" "),
+        _c("div", { staticClass: "card-content" }, [
+          _c("div", { staticClass: "media-content" }, [
+            _c("label", { staticClass: "label" }, [
+              _vm._v("Name, species of description of the animal:")
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "content" }, [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.userInput,
+                    expression: "userInput"
+                  }
+                ],
+                staticClass: "input",
+                attrs: {
+                  type: "text",
+                  placeholder: "e.g. name, species or description"
+                },
+                domProps: { value: _vm.userInput },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.userInput = $event.target.value
+                  }
+                }
+              })
+            ])
           ])
         ]),
         _vm._v(" "),
-        _c("div", { staticClass: "card-content" }, [
-          _c("div", { staticClass: "content" }, [_vm._t("default")], 2)
-        ])
+        _vm.userInput && _vm.userInput.length >= 3
+          ? _c("div", { staticClass: "overflow-search-table" }, [
+              _c("table", { staticClass: "table is-fullwidth" }, [
+                _vm._m(1),
+                _vm._v(" "),
+                _c(
+                  "tbody",
+                  _vm._l(_vm.animals, function(animal) {
+                    return _c("tr", [
+                      _c("td", [
+                        _c(
+                          "a",
+                          {
+                            on: {
+                              click: function($event) {
+                                return _vm.showAnimal(animal)
+                              }
+                            }
+                          },
+                          [_vm._v(_vm._s(animal.name))]
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(animal.description))]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _c(
+                          "a",
+                          {
+                            on: {
+                              click: function($event) {
+                                return _vm.showSpecies(animal.species_id)
+                              }
+                            }
+                          },
+                          [
+                            _vm._v(
+                              _vm._s(_vm.getSpeciesName(animal.species_id))
+                            )
+                          ]
+                        )
+                      ])
+                    ])
+                  }),
+                  0
+                )
+              ])
+            ])
+          : _vm._e()
       ])
     ])
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("header", { staticClass: "card-header" }, [
+      _c("h1", { staticClass: "card-header-title" }, [
+        _vm._v("Search for Animals")
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("Name")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Description")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Species")]),
+        _vm._v(" "),
+        _c("th")
+      ])
+    ])
+  }
+]
 render._withStripped = true
 
 
@@ -42809,133 +43137,146 @@ var render = function() {
       _c("div", { staticClass: "columns is-multiline" }, [
         _c(
           "div",
-          { staticClass: "card column is-half is-offset-one-quarter" },
+          {
+            staticClass: "card column is-half is-offset-one-quarter",
+            class: _vm.loading ? "centered" : ""
+          },
           [
-            _c("div", { staticClass: "card-content" }, [
-              _c("div", [
-                _c("header", { staticClass: "card-header" }, [
-                  _c("h1", { staticClass: "card-header-title" }, [
-                    _vm._v(
-                      "\n              " +
-                        _vm._s(_vm.animal.name) +
-                        "\n            "
-                    )
-                  ])
-                ])
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "content" }, [
-                _c("div", [
-                  _c("br"),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "media-content" }, [
-                    _vm._m(0),
-                    _vm._v(" "),
-                    _c("small", [
-                      _c("div", { staticClass: "content" }, [
+            _vm.loading
+              ? _c("div", { staticClass: "lds-dual-ring" })
+              : _vm._e(),
+            _vm._v(" "),
+            !_vm.loading
+              ? _c("div", { staticClass: "card-content" }, [
+                  _c("div", [
+                    _c("header", { staticClass: "card-header" }, [
+                      _c("h1", { staticClass: "card-header-title" }, [
                         _vm._v(
-                          "\n                  " +
-                            _vm._s(_vm.animal.description) +
-                            "\n                "
+                          "\n              " +
+                            _vm._s(_vm.animal.name) +
+                            "\n            "
                         )
                       ])
                     ])
                   ]),
                   _vm._v(" "),
-                  _c("br"),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "media-content" }, [
-                    _vm._m(1),
-                    _vm._v(" "),
-                    _c("small", [
-                      _c("div", { staticClass: "content" }, [
+                  _c("div", { staticClass: "content" }, [
+                    _c("div", [
+                      _c("br"),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "media-content" }, [
+                        _vm._m(0),
+                        _vm._v(" "),
+                        _c("small", [
+                          _c("div", { staticClass: "content" }, [
+                            _vm._v(
+                              "\n                  " +
+                                _vm._s(_vm.animal.description) +
+                                "\n                "
+                            )
+                          ])
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("br"),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "media-content" }, [
+                        _vm._m(1),
+                        _vm._v(" "),
+                        _c("small", [
+                          _c("div", { staticClass: "content" }, [
+                            _c(
+                              "a",
+                              {
+                                on: {
+                                  click: function($event) {
+                                    return _vm.showSpecies(
+                                      _vm.animal.species_id
+                                    )
+                                  }
+                                }
+                              },
+                              [
+                                _vm._v(
+                                  _vm._s(
+                                    _vm.getSpeciesName(_vm.animal.species_id)
+                                  )
+                                )
+                              ]
+                            )
+                          ])
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("br"),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "media-content" }, [
+                        _vm._m(2),
+                        _vm._v(" "),
+                        _c("small", [
+                          _c("div", { staticClass: "content" }, [
+                            _vm._v(
+                              "\n                  " +
+                                _vm._s(
+                                  _vm._f("formatDate")(_vm.animal.updated_at)
+                                ) +
+                                "\n                "
+                            )
+                          ])
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("br"),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "media-content" }, [
+                        _vm._m(3),
+                        _vm._v(" "),
+                        _c("small", [
+                          _c("div", { staticClass: "content" }, [
+                            _vm._v(
+                              "\n                  " +
+                                _vm._s(
+                                  _vm._f("formatDate")(_vm.animal.updated_at)
+                                ) +
+                                "\n                "
+                            )
+                          ])
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("br"),
+                      _vm._v(" "),
+                      _c("div", [
                         _c(
-                          "a",
+                          "button",
                           {
+                            staticClass: "button is-primary",
                             on: {
                               click: function($event) {
-                                return _vm.showSpecies(_vm.animal.species_id)
+                                return _vm.editAnimal()
                               }
                             }
                           },
-                          [
-                            _vm._v(
-                              _vm._s(_vm.getSpeciesName(_vm.animal.species_id))
-                            )
-                          ]
+                          [_vm._v("\n                Edit\n              ")]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "button",
+                          {
+                            staticClass: "button is-primary",
+                            on: {
+                              click: function($event) {
+                                return _vm.deleteAnimalPrompt()
+                              }
+                            }
+                          },
+                          [_vm._v("\n                Delete\n              ")]
                         )
                       ])
                     ])
-                  ]),
-                  _vm._v(" "),
-                  _c("br"),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "media-content" }, [
-                    _vm._m(2),
-                    _vm._v(" "),
-                    _c("small", [
-                      _c("div", { staticClass: "content" }, [
-                        _vm._v(
-                          "\n                  " +
-                            _vm._s(
-                              _vm._f("formatDate")(_vm.animal.updated_at)
-                            ) +
-                            "\n                "
-                        )
-                      ])
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("br"),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "media-content" }, [
-                    _vm._m(3),
-                    _vm._v(" "),
-                    _c("small", [
-                      _c("div", { staticClass: "content" }, [
-                        _vm._v(
-                          "\n                  " +
-                            _vm._s(
-                              _vm._f("formatDate")(_vm.animal.updated_at)
-                            ) +
-                            "\n                "
-                        )
-                      ])
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("br"),
-                  _vm._v(" "),
-                  _c("div", [
-                    _c(
-                      "button",
-                      {
-                        staticClass: "button is-primary",
-                        on: {
-                          click: function($event) {
-                            return _vm.editAnimal()
-                          }
-                        }
-                      },
-                      [_vm._v("\n                Edit\n              ")]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "button",
-                      {
-                        staticClass: "button is-primary",
-                        on: {
-                          click: function($event) {
-                            return _vm.deleteAnimalPrompt()
-                          }
-                        }
-                      },
-                      [_vm._v("\n                Delete\n              ")]
-                    )
                   ])
                 ])
-              ])
-            ])
+              : _vm._e()
           ]
         )
       ]),
@@ -43238,7 +43579,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container" }, [
     _c("div", { staticClass: "columns is-multiline" }, [
-      _c("div", { staticClass: "card column is-half is-offset-one-quarter" }, [
+      _c("div", { staticClass: "card column" }, [
         _vm._m(0),
         _vm._v(" "),
         _c("div", { staticClass: "card-content" }, [
@@ -43259,7 +43600,19 @@ var render = function() {
                       "tr",
                       { key: item.id, staticClass: "card-content" },
                       [
-                        _c("td", [_vm._v(_vm._s(item.id))]),
+                        _c("td", [
+                          _c(
+                            "a",
+                            {
+                              on: {
+                                click: function($event) {
+                                  return _vm.showSpecies(item)
+                                }
+                              }
+                            },
+                            [_vm._v(_vm._s(item.id))]
+                          )
+                        ]),
                         _vm._v(" "),
                         _c("td", [_vm._v(_vm._s(item.name))]),
                         _vm._v(" "),
@@ -43319,10 +43672,10 @@ render._withStripped = true
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/species/species-show.vue?vue&type=template&id=7419e72c&":
-/*!***********************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/species/species-show.vue?vue&type=template&id=7419e72c& ***!
-  \***********************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/species/species-show.vue?vue&type=template&id=7419e72c&scoped=true&":
+/*!***********************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/species/species-show.vue?vue&type=template&id=7419e72c&scoped=true& ***!
+  \***********************************************************************************************************************************************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -43336,25 +43689,172 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container" }, [
     _c("div", { staticClass: "columns is-multiline" }, [
-      _c("div", { staticClass: "card column is-half is-offset-one-quarter" }, [
-        _c("header", { staticClass: "card-header" }, [
-          _c("h1", { staticClass: "card-header-title" }, [
-            _vm._v(
-              "\n                    " +
-                _vm._s(_vm.title) +
-                "\n                "
-            )
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "card-content" }, [
-          _c("div", { staticClass: "content" }, [_vm._t("default")], 2)
-        ])
-      ])
+      _c(
+        "div",
+        {
+          staticClass: "card column is-half is-offset-one-quarter",
+          class: _vm.loading ? "centered" : ""
+        },
+        [
+          _vm.loading ? _c("div", { staticClass: "lds-dual-ring" }) : _vm._e(),
+          _vm._v(" "),
+          !_vm.loading
+            ? _c("div", { staticClass: "card-content" }, [
+                _c("div", [
+                  _c("header", { staticClass: "card-header" }, [
+                    _c("h1", { staticClass: "card-header-title" }, [
+                      _vm._v(
+                        "\n              " +
+                          _vm._s(_vm.specie.name) +
+                          "\n            "
+                      )
+                    ])
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "content" }, [
+                  _c("div", [
+                    _c("br"),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "media-content" }, [
+                      _vm._m(0),
+                      _vm._v(" "),
+                      _c("small", [
+                        _c("div", {
+                          staticClass: "content",
+                          domProps: {
+                            textContent: _vm._s(_vm.specie.description)
+                          }
+                        })
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("br"),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "media-content" }, [
+                      _vm._m(1),
+                      _vm._v(" "),
+                      _c("small", [
+                        _c("div", {
+                          staticClass: "content",
+                          domProps: {
+                            textContent: _vm._s(
+                              _vm.moment(_vm.specie.created_at).fromNow()
+                            )
+                          }
+                        })
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("br"),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "media-content" }, [
+                      _vm._m(2),
+                      _vm._v(" "),
+                      _c("small", [
+                        _c("div", {
+                          staticClass: "content",
+                          domProps: {
+                            textContent: _vm._s(
+                              _vm.moment(_vm.specie.updated_at).fromNow()
+                            )
+                          }
+                        })
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("br"),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "media-content" }, [
+                      _vm._m(3),
+                      _vm._v(" "),
+                      _c(
+                        "small",
+                        _vm._l(_vm.animals, function(animal) {
+                          return animal.species_id == _vm.specie.id
+                            ? _c("div", { staticClass: "content" }, [
+                                _c(
+                                  "a",
+                                  {
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.showAnimal(animal)
+                                      }
+                                    }
+                                  },
+                                  [_vm._v(_vm._s(animal.name))]
+                                )
+                              ])
+                            : _vm._e()
+                        }),
+                        0
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("br"),
+                    _vm._v(" "),
+                    _c("div", [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "button is-primary",
+                          on: {
+                            click: function($event) {
+                              return _vm.editSpecies()
+                            }
+                          }
+                        },
+                        [_vm._v("\n                Edit\n              ")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          staticClass: "button is-primary",
+                          on: {
+                            click: function($event) {
+                              return _vm.deleteSpecies()
+                            }
+                          }
+                        },
+                        [_vm._v("\n                Delete\n              ")]
+                      )
+                    ])
+                  ])
+                ])
+              ])
+            : _vm._e()
+        ]
+      )
     ])
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("strong", [_c("div", [_vm._v("Description")])])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("strong", [_c("div", [_vm._v("Created")])])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("strong", [_c("div", [_vm._v("Last Update")])])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("strong", [_c("div", [_vm._v("Animals with this species")])])
+  }
+]
 render._withStripped = true
 
 
@@ -55795,7 +56295,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _animal_edit_vue_vue_type_template_id_5ed65933_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./animal-edit.vue?vue&type=template&id=5ed65933&scoped=true& */ "./resources/js/components/animal/animal-edit.vue?vue&type=template&id=5ed65933&scoped=true&");
+/* harmony import */ var _animal_edit_vue_vue_type_template_id_5ed65933___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./animal-edit.vue?vue&type=template&id=5ed65933& */ "./resources/js/components/animal/animal-edit.vue?vue&type=template&id=5ed65933&");
 /* harmony import */ var _animal_edit_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./animal-edit.vue?vue&type=script&lang=js& */ "./resources/js/components/animal/animal-edit.vue?vue&type=script&lang=js&");
 /* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
@@ -55807,11 +56307,11 @@ __webpack_require__.r(__webpack_exports__);
 
 var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
   _animal_edit_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _animal_edit_vue_vue_type_template_id_5ed65933_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
-  _animal_edit_vue_vue_type_template_id_5ed65933_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  _animal_edit_vue_vue_type_template_id_5ed65933___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _animal_edit_vue_vue_type_template_id_5ed65933___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
   false,
   null,
-  "5ed65933",
+  null,
   null
   
 )
@@ -55837,19 +56337,19 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/components/animal/animal-edit.vue?vue&type=template&id=5ed65933&scoped=true&":
-/*!***************************************************************************************************!*\
-  !*** ./resources/js/components/animal/animal-edit.vue?vue&type=template&id=5ed65933&scoped=true& ***!
-  \***************************************************************************************************/
+/***/ "./resources/js/components/animal/animal-edit.vue?vue&type=template&id=5ed65933&":
+/*!***************************************************************************************!*\
+  !*** ./resources/js/components/animal/animal-edit.vue?vue&type=template&id=5ed65933& ***!
+  \***************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_animal_edit_vue_vue_type_template_id_5ed65933_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./animal-edit.vue?vue&type=template&id=5ed65933&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/animal/animal-edit.vue?vue&type=template&id=5ed65933&scoped=true&");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_animal_edit_vue_vue_type_template_id_5ed65933_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_animal_edit_vue_vue_type_template_id_5ed65933___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./animal-edit.vue?vue&type=template&id=5ed65933& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/animal/animal-edit.vue?vue&type=template&id=5ed65933&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_animal_edit_vue_vue_type_template_id_5ed65933___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_animal_edit_vue_vue_type_template_id_5ed65933_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_animal_edit_vue_vue_type_template_id_5ed65933___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 
@@ -56416,7 +56916,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _species_show_vue_vue_type_template_id_7419e72c___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./species-show.vue?vue&type=template&id=7419e72c& */ "./resources/js/components/species/species-show.vue?vue&type=template&id=7419e72c&");
+/* harmony import */ var _species_show_vue_vue_type_template_id_7419e72c_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./species-show.vue?vue&type=template&id=7419e72c&scoped=true& */ "./resources/js/components/species/species-show.vue?vue&type=template&id=7419e72c&scoped=true&");
 /* harmony import */ var _species_show_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./species-show.vue?vue&type=script&lang=js& */ "./resources/js/components/species/species-show.vue?vue&type=script&lang=js&");
 /* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
@@ -56428,11 +56928,11 @@ __webpack_require__.r(__webpack_exports__);
 
 var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
   _species_show_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _species_show_vue_vue_type_template_id_7419e72c___WEBPACK_IMPORTED_MODULE_0__["render"],
-  _species_show_vue_vue_type_template_id_7419e72c___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  _species_show_vue_vue_type_template_id_7419e72c_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _species_show_vue_vue_type_template_id_7419e72c_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
   false,
   null,
-  null,
+  "7419e72c",
   null
   
 )
@@ -56458,19 +56958,19 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/components/species/species-show.vue?vue&type=template&id=7419e72c&":
-/*!*****************************************************************************************!*\
-  !*** ./resources/js/components/species/species-show.vue?vue&type=template&id=7419e72c& ***!
-  \*****************************************************************************************/
+/***/ "./resources/js/components/species/species-show.vue?vue&type=template&id=7419e72c&scoped=true&":
+/*!*****************************************************************************************************!*\
+  !*** ./resources/js/components/species/species-show.vue?vue&type=template&id=7419e72c&scoped=true& ***!
+  \*****************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_species_show_vue_vue_type_template_id_7419e72c___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./species-show.vue?vue&type=template&id=7419e72c& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/species/species-show.vue?vue&type=template&id=7419e72c&");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_species_show_vue_vue_type_template_id_7419e72c___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_species_show_vue_vue_type_template_id_7419e72c_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./species-show.vue?vue&type=template&id=7419e72c&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/species/species-show.vue?vue&type=template&id=7419e72c&scoped=true&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_species_show_vue_vue_type_template_id_7419e72c_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_species_show_vue_vue_type_template_id_7419e72c___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_species_show_vue_vue_type_template_id_7419e72c_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 
