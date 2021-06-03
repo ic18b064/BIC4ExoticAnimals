@@ -4,7 +4,6 @@
             <div class="card column is-half is-offset-one-quarter">
                 <header class="card-header">
                     <h1 class="card-header-title">
-                        {{species}}
                         Species
                     </h1>
                 </header>
