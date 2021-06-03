@@ -18,7 +18,7 @@ $green: #38c172;
 $teal: #4dc0b5;
 $cyan: #6cb2eb;
 
-$primary:      hsl(171, 100%, 41%);
+$primary:      hsla(199, 27%, 18%, 1);
 $grey-darker:  hsl(0, 0%, 21%);
 $grey-dark:    hsl(0, 0%, 29%);
 $grey:         hsl(0, 0%, 48%);
@@ -61,3 +61,4 @@ $gradient-bottom-right: linear-gradient(135deg, #d9e5d6ff, #eddea4ff, #998fc7ff,
 $gradient-top-left: linear-gradient(225deg, #d9e5d6ff, #eddea4ff, #998fc7ff, #22333bff, #2c2c2cff);
 $gradient-bottom-left: linear-gradient(315deg, #d9e5d6ff, #eddea4ff, #998fc7ff, #22333bff, #2c2c2cff);
 $gradient-radial: radial-gradient(#d9e5d6ff, #eddea4ff, #998fc7ff, #22333bff, #2c2c2cff);
+

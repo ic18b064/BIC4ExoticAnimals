@@ -2164,6 +2164,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['title'],
   mounted: function mounted() {
@@ -42096,6 +42099,10 @@ var render = function() {
                       "tr",
                       { key: item.id, staticClass: "card-content" },
                       [
+                        _c("button", [_vm._v("Edit")]),
+                        _vm._v(" "),
+                        _c("button", [_vm._v("Delete")]),
+                        _vm._v(" "),
                         _c("td", [_vm._v(_vm._s(item.id))]),
                         _vm._v(" "),
                         _c("td", [_vm._v(_vm._s(item.name))]),
@@ -42158,6 +42165,8 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("thead", [
+      _c("th", [_vm._v("Buttons")]),
+      _vm._v(" "),
       _c("th", [_vm._v("ID")]),
       _vm._v(" "),
       _c("th", [_vm._v("Name")]),
